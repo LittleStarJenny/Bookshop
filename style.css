@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    padding: 0;
+    
+    background-color: lightgray;
+    
+}
+
+header, main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 45px;
+    color: grey;
+    text-decoration: none;
+    text-align: center;
+}
+
+p {
+    color: white;
+    text-align: center;
+}
+
+.start {
+    justify-content: center;
+}
+
+input {
+background-color: white;
+}
+
+.box
+{
+ max-width:600px;
+ width:100%;
+ margin: 0 auto;;
+}
+
+
+
+.StripeElement {
+    background-color: white;
+    height: 40px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+  }
+  
+  .StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+  }
+  
+  .StripeElement--invalid {
+    border-color: #fa755a;
+  }
+  
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+ 
+  
