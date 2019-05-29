@@ -1,6 +1,6 @@
 <?php
   require_once('lib/pdo_db.php');
-  require_once('classes/Transaction.php');
+  require_once('classes/class.php');
 
   // Instantiate Transaction
   $transaction = new Transaction();

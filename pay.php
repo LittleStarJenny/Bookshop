@@ -1,5 +1,6 @@
 <?php 
-include_once 'classes/upload.php';
+include_once 'classes/class.php';
+include_once 'header.php';
 
  $obj = new Upload();
  $get = $obj->getId();
@@ -8,23 +9,31 @@ include_once 'classes/upload.php';
   $fread = fread($file_handler, filesize('upload/' . $get->new_file));
   fclose($file_handler);
 
-  echo $fread
+  // To split by newline
+  $tmp = explode("\n", $fread); 
+  // To split by *
+  $data = array();
+  for($i = 0; $i < count($tmp); $i++) {
+      $data[] = explode(".", $tmp[$i]);
+  }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
   <title>Pay Page</title>
 </head>
 <body>
   <div class="container">
     <h2 class="my-4 text-center">Complete your purchase</h2>
+    <?php //Echo file to table
+    echo '<table class="table1">';
+    foreach ($data as $row) {
+      echo '<tr>';
+      foreach ($row as $sr) {
+        echo '<td>'.$sr.'</td>';
+      }
+      echo '</tr>';
+    }
+    echo '</table>';
+    ?>
     <form action="./charge.php" method="post" id="payment-form">
       <div class="form-row">
        <input type="text" name="firstName" class="form-control mb-3 StripeElement StripeElement--empty" placeholder="First Name">

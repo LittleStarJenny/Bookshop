@@ -1,27 +1,46 @@
 body {
     margin: 0;
     padding: 0;
-    
-    background-color: lightgray;
-    
+    background: url('images/jaz-king-221365-unsplash.jpg');  
+    background-size: cover;
 }
 
-header, main {
+main {
     width: 80%;
     margin: 0 auto;
+    padding-top: 2%;
+}
+
+header{
+  height: 110px;
+  background-color: white;
 }
 
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 45px;
     color: grey;
     text-decoration: none;
-    text-align: center;
+    padding-top: 15px;
+    padding-left: 30px;
 }
 
 p {
-    color: white;
+    color: gray;
     text-align: center;
+    font-size: 14px;
+}
+
+a:hover {
+  color: #0056b3; 
+  text-decoration: none; 
+}
+form  {
+  text-align: -webkit-center;
+}
+
+.upload {
+  margin-top: 2px;
 }
 
 .start {
@@ -39,7 +58,54 @@ background-color: white;
  margin: 0 auto;;
 }
 
+.table2 {
+  table-layout: fixed;
+  width: 50%;
+  margin-left: 10px;
+  float: left;
+  font-size: 15px;
+  background-color: transparent;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: grey;
+}
 
+.table2 thead {
+  border-width: 0 0 1px 0;
+  border-style: solid;
+}
+.table2 td {
+  width: 25% ;
+  border-width: 0 1px 0 0;
+  border-style: solid;
+  border-color: grey;
+}
+
+.table1 {
+  width: 25%;
+  margin-left: 10px;
+  float: left;
+  font-size: 15px;
+  background-color: white;
+  border: 1px thin grey;
+}
+
+.table1 td {
+  padding-left: 5px;
+  border: 1px solid grey;
+
+}
+
+#payment-form {
+  width: 50%;
+  float: right;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #324c68;
+  border-color: #92adca;
+}
 
 .StripeElement {
     background-color: white;
