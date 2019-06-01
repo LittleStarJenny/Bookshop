@@ -5,60 +5,50 @@ include_once 'lib/pdo_db.php';
 class Api {
     private $db;
 
+    public $isbn;
+    public $title;
+    public $author;
+
     public function __construct() {
       $this->db = new Database;
     }
 
-public function getBooks($isbnArray) {
+public function getBooks() {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/books');
+  $result = curl_exec($ch);
+      $books = json_decode($result);
 
-    foreach ($isbnArray as $isbn) {
-        // Set URL.
-        $url = 'https://5ce8007d9f2c390014dba45e.mockapi.io/books/' . $isbn;
-        // Create a curl instance.
-        $ch = curl_init($url);
-        // Setup curl options
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // Perform the request and get the response.
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $json = json_decode($response, true);
+    return $books;
+  }
+  public function getAuthor() {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/authors');
+    $result = curl_exec($ch);
+        $authors = json_decode($result);
+
+
+  
+      return $authors;
     }
-    return $json;
-  }
 
-public function getAuthor($isbnArray) {
-
-  foreach ($isbnArray as $author_id) {
-      // Set URL.
-      $url = 'https://5ce8007d9f2c390014dba45e.mockapi.io/authors/' . $author_id;
-      // Create a curl instance.
-      $ch = curl_init($url);
-      // Setup curl options
+    public function getPublisher() {
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      // Perform the request and get the response.
-      $response = curl_exec($ch);
-      curl_close($ch);
-      $json = json_decode($response, true);
-  }
-  return $json;
+      curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/publishers');
+      $result = curl_exec($ch);
+          $publishers = json_decode($result);
+    
+        return $publishers;
+      }
 }
-public function getPublisher($isbnArray) {
 
-  foreach ($isbnArray as $publisher_id) {
-      // Set URL.
-      $url = 'https://5ce8007d9f2c390014dba45e.mockapi.io/publishers/' . $publisher_id;
-      // Create a curl instance.
-      $ch = curl_init($url);
-      // Setup curl options
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      // Perform the request and get the response.
-      $response = curl_exec($ch);
-      curl_close($ch);
-      $json = json_decode($response, true);
-  }
-  return $json;
-}
-}
+
 
 class Customer {
     private $db;
