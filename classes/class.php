@@ -5,50 +5,73 @@ include_once 'lib/pdo_db.php';
 class Api {
     private $db;
 
-    public $isbn;
-    public $title;
-    public $author;
-
     public function __construct() {
       $this->db = new Database;
     }
 
-public function getBooks() {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+public function getBooks($isbn) {
+  $book = [];
+  $book[0] = $isbn;
+  $url = 'https://5ce8007d9f2c390014dba45e.mockapi.io/books/' ."$isbn";
+
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/books');
+  curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
   $result = curl_exec($ch);
-      $books = json_decode($result);
 
-    return $books;
-  }
-  public function getAuthor() {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/authors');
-    $result = curl_exec($ch);
-        $authors = json_decode($result);
+curl_close($ch);
+      $b = json_decode($result);
 
-
+    $book[1] = $b->title ?? 'Hittar ingen matchning';
+    $book[2] = $b->author_id ?? '';
   
-      return $authors;
+      $id = $book[2];
+
+  if (isset($id))
+  { 
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    
+    curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/authors/' ."$id");
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+        $a = json_decode($result);
+
+       
+    $book[2] = $a->firstName ?? ''; 
+    $book[3] = $a->lastName ?? '';
+     
     }
 
-    public function getPublisher() {
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/publishers');
-      $result = curl_exec($ch);
-          $publishers = json_decode($result);
+    $book[4] = $b->publisher_id ?? '';
     
-        return $publishers;
+    $p_id = $book[4];
+
+    if(isset($p_id)) {
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+      curl_setopt($ch, CURLOPT_URL, 'https://5ce8007d9f2c390014dba45e.mockapi.io/publishers/' ."$p_id");
+      $result = curl_exec($ch);
+      curl_close($ch);
+
+          $p = json_decode($result);
+    
+          $book[4] = $p->name ?? '';
+    }
+        return $book;
       }
 }
-
-
 
 class Customer {
     private $db;

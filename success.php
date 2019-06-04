@@ -4,87 +4,62 @@ include_once 'header.php';
 
   $upload = new Upload();
   $get = $upload->getId();
-  $file_handler = fopen('upload/' . $get->new_file, 'r');
-    $fread = fread($file_handler, filesize('upload/' . $get->new_file));
+
+$api = new Api();
+
+$books = [];
+
+$books[0] = ['ISBN', 'Titel', 'Författare', '', 'Förlag'];
+
+if ($file_handler = fopen('upload/' . $get->new_file, 'r')) 
+{
+  while($data = fgetcsv($file_handler, 0, ',')) 
+  {
+    $books[] = $api->getBooks($data[0]);  
+  }
   fclose($file_handler);
- 
-  $isbnArray = explode(',', $fread);
-  $keys = array_keys($isbnArray);
-
-
-  for($i=0; $i < count($keys); ++$i) {
-
-  $api = new Api();
-  $books = $api->getBooks();
-
-  $auth = new Api();
-  $authors = $auth->getAuthor();
-
-  $publ = new Api();
-  $publishers = $publ->getPublisher();
+    }
+    if ($books)
+    {
+  $file_to_write = fopen('newfiles/' . $get->new_file, 'w');
+  $download = true;
+    foreach ($books as $book) 
+   {
+      $download = $download && fputcsv($file_to_write, $book);
+   }
+  fclose($file_to_write);
+  }
 
   ?>
-  <main>
-      <table class="table2">
+  <main><?php
+      foreach ($books as $book) 
+  {?> <table class="table2">
     <tbody>
-      <tr>
-      <?php foreach ($books as $book) {
-              foreach ($authors as $author) {   
-                foreach ($publishers as $publisher) {
-    $isbn = $book->isbn;
-    $title = $book->title;
-    $author_id = $book->author_id;
-    $publisher_id = $book->publisher_id;
-    $authId = $author->id;
-    $firstName = $author->firstName;
-    $lastName = $author->lastName;
-    $name = $publisher->name;
-    $publId = $publisher->id;
-            if($isbnArray[$keys[$i]] == $isbn) { 
-                if($author_id == $authId) {
-                  if($publisher_id == $publId){?>
-      
-      <td><?php echo $isbn?></td>
-      <td><?php echo $title?></td>
-      <td><?php echo $firstName,'&nbsp;', $lastName?></td>
-      <td><?php echo $name?></td>
+      <tr>  
+      <td><?php echo $book[0]?></td>
+      <td><?php echo $book[1]?></td>
+      <td><?php echo $book[2],'&nbsp;', $book[3]?></td>
+      <td><?php echo $book[4]?></td>
       </tr>
     </tbody>
       </table>
+  <?php }?>
   </main>
-<?php 
-  $bookarray=array($isbn, $title, $firstName, $lastName, $name);
-  
-    foreach ($books as $book) {
-      foreach ($authors as $author) {   
-        foreach ($publishers as $publisher)
-    if ($bookarray) {
-        $file_to_write = fopen('newfiles/' . $get->new_file, 'w');
-        $download = true;   
-        $download = $download && fputcsv($file_to_write, $bookarray);
-    }
-    fclose($file_to_write);
-}}
-                  }
-  }}}}}}
-  ?>
 
   <title>Thank You</title>
 </head>
 <body>
   <div class="container mt-4">
-    <hr>
-
-    <p>Check your email for more info</p>
-    <p><a href="index.php" class="btn btn-light mt-2">Go Back</a></p>
+ 
+    <p>Din nedladdningsbara fil</p>
     <p>
       <?php
           if ($download) {
-            echo '<a href= " ' . 'newfiles/' . $get->new_file . '" class="btn btn-light mt-2">Download here</a>';
+            echo '<a href= " ' . 'newfiles/' . $get->new_file . '" class="btn btn-light mt-2">Ladda ner här</a>';
         } else {
             echo 'Kunde inte fylla filen!';
-        }
-     ?>
+        } ?>
+      <p><a href="index.php" class="btn btn-light mt-2">Börja om</a></p>
   </div>
 </body> 
 </html>
