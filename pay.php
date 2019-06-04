@@ -1,10 +1,11 @@
 <?php 
 include_once 'classes/class.php';
 include_once 'header.php';
-
+//create new object to get last inserted csv-file from database
  $obj = new Upload();
  $get = $obj->getId();
 
+ //open and read the csv-file
   $file_handler = fopen('upload/' . $get->new_file, 'r');
   $fread = fread($file_handler, filesize('upload/' . $get->new_file));
   fclose($file_handler);
@@ -17,9 +18,6 @@ include_once 'header.php';
       $data[] = explode(".", $tmp[$i]);
   }
 ?>
-
-  <title>Pay Page</title>
-</head>
 <body>
   <div class="container">
     <h2 class="my-4 text-center">Complete your purchase</h2>

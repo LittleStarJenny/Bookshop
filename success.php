@@ -46,11 +46,10 @@ if ($file_handler = fopen('upload/' . $get->new_file, 'r'))
   <?php }?>
   </main>
 
-  <title>Thank You</title>
+  <title>Tack för ditt köp</title>
 </head>
 <body>
   <div class="container mt-4">
- 
     <p>Din nedladdningsbara fil</p>
     <p>
       <?php

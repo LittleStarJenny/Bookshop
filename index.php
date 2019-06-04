@@ -4,9 +4,9 @@ include_once 'header.php';
 ?>
 
 <main>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta in reprehenderit atque voluptatem.</p>
-    <p> Nihil, porro soluta? <p>
-    <p>Voluptatum magnam molestias molestiae veritatis, similique nobis odio sunt, veniam, aspernatur ipsam quod laboriosam?</p>
+    <p>Välkommen till Bookshop! </p>
+    <p>Här kan du ladda upp en csv-fil med ISBN-nummer och få tillbaka en lista med Titel, Författare och Förlag<p>
+    <p>OBS! Tänk på att filen inte får innehålla några rubriker!</p>
         <form action="upload.php" method="POST" enctype="multipart/form-data">
                 <input type="file" name="file">
                 <button type="submit" name="submit" class="upload">UPLOAD</button>

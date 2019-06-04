@@ -2,13 +2,14 @@
 
 include_once 'lib/pdo_db.php';
 
+//create class to all API-calls
 class Api {
     private $db;
 
     public function __construct() {
       $this->db = new Database;
     }
-
+//create method to retrieve data from API
 public function getBooks($isbn) {
   $book = [];
   $book[0] = $isbn;
@@ -142,7 +143,7 @@ class Customer {
       return $results;
     }
   } 
-
+//create class to Upload file
   class Upload {
     private $db;
 
@@ -150,6 +151,7 @@ class Customer {
       $this->db = new Database;
     }
 
+    //method to insert the cvs-file into database
     public function setFile($new_file, $file) {
       // Prepare Query
       $this->db->query("INSERT INTO paypage.uploadedcsv (new_file, file) VALUES (:new_file, :file)");
@@ -166,6 +168,7 @@ class Customer {
       }
         }
 
+//method to get last inserted id from database
     public function getId() {
         // Prepare Query
         $this->db->query('SELECT new_file FROM uploadedcsv ORDER BY csvId DESC LIMIT 1');
